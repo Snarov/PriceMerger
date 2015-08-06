@@ -1,0 +1,52 @@
+/*
+ООО "ТК ЭЛЬДОРАДО"
+Витебск 2015
+Автор: Снаров И.А.
+*/
+/* 
+    Created on : 03.08.2015, 19:13:26
+    Author     : snarov
+*/
+
+.openFileBtn{
+	-fx-graphic: url("icons/openFileIcon.png");
+}
+
+#mergeSettingsHeader{
+	-fx-font-size: 14px;
+	-fx-font-weight: bold;
+}
+
+#operateBtn{
+	-fx-font-size: 18px;
+	-fx-font-weight: bold;
+}
+
+#fileSelectionPanel{
+	-fx-background-color: #d0d0d0;
+	-fx-border-color: darkgrey;
+	-fx-border-width: 0 0 3 0;
+	-fx-border-style: solid;
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+#fileSelectionPanelSeparator *.line { 
+	-fx-border-style: solid;
+	-fx-border-color: #888888;
+	-fx-border-width: 2px;
+
+}
+
+.chooseGroup{
+	-fx-border-color: lightgray;
+	-fx-border-insets: -5; 
+    -fx-border-radius: 5;
+    -fx-border-style: dashed;
+    -fx-border-width: 2;
+	}
+
+
+
+
+
+

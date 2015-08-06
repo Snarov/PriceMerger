@@ -1,0 +1,199 @@
+<!--/*
+* ООО "ТК ЭЛЬДОРАДО"
+* Витебск 2015 * 
+* Автор: Снаров И.А.
+*/-->
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.ToggleGroup?>
+
+<!--Файл описывает графический интерфейс главного окна программы-->
+
+
+<!--Графический интерфейс пользователя использует привязки ресурсов для обеспечения локализации. Специфические для каждого языка и региона
+значения хранятся в файах внутри директории pricemasterr/bundles и именуются например так: 'locale_ru_RU.properties'-->
+<VBox xmlns:fx="http://javafx.com/fxml/1"  id="root" prefWidth="750" prefHeight="400" fx:controller="pricemerger.controller.PriceMergerController">
+	<!--Блок описания всех констант исползуемыхпри построении GUI-->
+	<fx:define>
+		<!--		Почему-то предопределенное слово Infinity как значение для prefHeight не приводит к желаемому результату. Поэтому
+		приходится вводить свою константу-->
+		<Double fx:id="INFINITY" fx:value="1000000"/> 
+		<Double fx:id="FILENAME_LABEL_CONSTANT_WIDTH" fx:value="120"/>
+		<Double fx:id="HBOX_SPACING" fx:value="10"/>
+		<Double fx:id="FILE_SELECT_PANE_HEIGHT" fx:value="40"/>
+		<Double fx:id="FILE_SELECT_PANE_TOP_MARGIN" fx:value="5"/>
+		<Double fx:id="FILE_SELECT_PANE_SIDE_MARGIN" fx:value="40"/>
+		<Double fx:id="FILE_SELECT_PANE_MIN_WIDTH" fx:value="750"/>
+		<Double fx:id="MERGE_SETTINGS_PANE_MIN_WIDTH" fx:value="750"/>
+		<Double fx:id="FILE_SELECT_PANE_SEPARATOR_LENGTH" fx:value="40"/>
+		<Double fx:id="OPEN_FILE_BTN_SIZE" fx:value="16"/>
+		<Double fx:id="SETTINGS_PANEL_TOP_MARGIN" fx:value="10"/>
+		<Double fx:id="SETTINGS_PANEL_SIDE_MARGIN" fx:value="40"/>
+		<Double fx:id="SETINGS_PANEL_SEPARATOR_SIZE" fx:value="100"/>
+		<Double fx:id="SETTINGS_PANEL_GRID_HGAP" fx:value="20"/>
+		<Double fx:id="SETTINGS_PANEL_GRID_VGAP" fx:value="10"/>
+		<Double fx:id="PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH" fx:value="50"/>
+		<Double fx:id="PRICE_COL_NUM_TEXTFIELD_WIDTH" fx:value="30"/>
+		<Double fx:id="MUTABLE_FIELDS_CHOOSE_AREA_VBOX_SPACING" fx:value="20"/>
+		<Double fx:id="MUTABLE_FIELDS_CHOOSE_PANE_VGAP" fx:value="20"/>
+		<Double fx:id="MUTABLE_FIELDS_CHOOSE_PANE_HGAP" fx:value="10"/>
+		<Double fx:id="MATCHING_MODE_CHOOSE_PANE_HGAP" fx:value="15"/>
+		<Double fx:id="MATCHING_MODE_CHOOSE_AREA_VBOX_SPACING" fx:value="20"/>
+<!--		<Double fx:id="MATCHING_MODE_CHOOSE_AREA_BOTTOM_MARGIN" fx:value="15"/>-->
+		<Double fx:id="OPERATE_BTN_HEIGHT" fx:value="50"/>
+										 
+		<Insets fx:id="SETTINGS_PANEL_HEADER_INSETS" top="15" bottom="10"/>
+		<Insets fx:id="PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" bottom="7"/>
+		<Insets fx:id="PRICE_RANGE_CHOOSE_AREA_LABEL_INSETS" top="5"/>
+		<Insets fx:id="MATCHING_MODE_CHOOSE_AREA_HEADER_INSETS" top="20"/>
+		<Insets fx:id="MATCHING_MODE_CHOOSE_PANE_INSETS" bottom="15"/>
+		
+		<ToggleGroup fx:id="matchingModeChooseTG"/> 
+	</fx:define>
+	
+	<MenuBar>
+		<!--Имена ресурсов для элементов меню заданы в форме 'имяМеню-имяЭлементаМеню'-->
+		<menus>
+			<Menu text="%file-menu">
+				<MenuItem fx:id="openmaster" text="%file-openMaster" onAction="#handleFileOpenMaster"/>
+				<MenuItem fx:id="openMerger" text="%file-openMerge" onAction="#handleFileOpenMerge"/>
+				<SeparatorMenuItem  />
+				<MenuItem text="%file-exit" onAction="#handleFileExit"/>
+			</Menu>
+			<Menu text="%about-menu">
+				<!--TODO: добавить текст описания--> 
+			</Menu>
+		</menus>
+	</MenuBar>
+	
+	<BorderPane fx:id="workspace">
+		<top>
+			<AnchorPane   fx:id="fileSelectionPanel" minWidth="$FILE_SELECT_PANE_MIN_WIDTH" prefHeight="$FILE_SELECT_PANE_HEIGHT">
+				
+				<HBox alignment="CENTER_LEFT" spacing="$HBOX_SPACING" AnchorPane.topAnchor="$FILE_SELECT_PANE_TOP_MARGIN" AnchorPane.leftAnchor="$FILE_SELECT_PANE_SIDE_MARGIN" >
+					<Label text="%masterFileLabel"/>
+					<Label text="%chooseFilePrompt" fx:id="masterFileNameLabel"  minWidth="$FILENAME_LABEL_CONSTANT_WIDTH"  prefWidth="$FILENAME_LABEL_CONSTANT_WIDTH" maxWidth="$FILENAME_LABEL_CONSTANT_WIDTH"/>
+					<Button fx:id="masterFileOpenBtn" styleClass="openFileBtn" prefHeight="$OPEN_FILE_BTN_SIZE" prefWidth="$OPEN_FILE_BTN_SIZE"/> 
+				</HBox>
+				
+				<!--БАГ: из-за разделителя становятся недоступными активные элементы слева от разделителя-->
+				<!--<Separator fx:id="fileSelectionPanelSeparator" orientation="VERTICAL"  prefHeight="$FILE_SELECT_PANE_SEPARATOR_LENGTH" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />--> 
+				
+				<HBox alignment="CENTER_RIGHT" spacing="$HBOX_SPACING" AnchorPane.topAnchor="$FILE_SELECT_PANE_TOP_MARGIN" AnchorPane.rightAnchor="$FILE_SELECT_PANE_SIDE_MARGIN">
+					<Label text="%mergeFileLabel"/>
+					<Label fx:id="mergeFileNameLabel" text="%chooseFilePrompt" minWidth="$FILENAME_LABEL_CONSTANT_WIDTH"  prefWidth="$FILENAME_LABEL_CONSTANT_WIDTH" maxWidth="$FILENAME_LABEL_CONSTANT_WIDTH"/>
+					<Button fx:id="mergeFileOpenBtn" styleClass="openFileBtn" prefHeight="$OPEN_FILE_BTN_SIZE" prefWidth="$OPEN_FILE_BTN_SIZE" /> 
+				</HBox>
+			</AnchorPane>
+		</top>
+		
+		<center>
+			<VBox fx:id="settingsPane" alignment="TOP_CENTER" prefHeight="$INFINITY">
+				<Text fx:id="masterSettingsHeader" text="%mergeSettings" VBox.margin="$SETTINGS_PANEL_HEADER_INSETS"/>
+				<AnchorPane minWidth="$MERGE_SETTINGS_PANE_MIN_WIDTH">
+					<GridPane fx:id="masterPriceSettings" alignment="CENTER" vgap="$SETTINGS_PANEL_GRID_VGAP" hgap="$SETTINGS_PANEL_GRID_HGAP" AnchorPane.topAnchor="$SETTINGS_PANEL_TOP_MARGIN" AnchorPane.leftAnchor="$SETTINGS_PANEL_SIDE_MARGIN">
+						<HBox fx:id="masterPriceRangeChooseArea" spacing="$HBOX_SPACING" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowSpan="2"   >
+							<Label text="%priceRangeLabel" HBox.margin="$PRICE_RANGE_CHOOSE_AREA_LABEL_INSETS"  />
+							<TextField fx:id="masterPriceRangeField1" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" />
+							<Label text=":" HBox.margin="$PRICE_RANGE_CHOOSE_AREA_LABEL_INSETS" />
+							<TextField fx:id="masterPriceRangeField2" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" />
+						</HBox>
+						
+						<Label text="%priceCategoryColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceCategoryColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="LEFT"/>
+						
+						<Label text="%priceBrandColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceBrandColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.halignment="LEFT"/>
+						
+						<Label text="%priceModelColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceModelColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.halignment="LEFT"/>
+					
+						<Label text="%priceArticleColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceArticleColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.halignment="LEFT"/>
+						
+						<Label text="%priceCountColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceCountColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="LEFT"/>
+						 
+						<Label text="%priceCostColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceCostColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="LEFT"/>
+						
+						<Label text="%priceDateColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceDateColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.halignment="LEFT"/>
+						
+						<VBox alignment="CENTER" spacing="$MUTABLE_FIELDS_CHOOSE_AREA_VBOX_SPACING"  GridPane.rowIndex="10" GridPane.columnSpan="2" GridPane.rowSpan="4"  GridPane.halignment="CENTER" GridPane.valignment="CENTER" >
+							<Label text="%mutableFieldsChooseAreaHeader" />
+							<TilePane fx:id="mutableFieldsChoosePane" styleClass="chooseGroup" hgap="$MUTABLE_FIELDS_CHOOSE_PANE_HGAP" vgap="$MUTABLE_FIELDS_CHOOSE_PANE_VGAP" alignment="CENTER" prefColumns="2" prefRows="2">
+								<HBox alignment="CENTER_LEFT"><CheckBox fx:id="mutableArticleCB"  text="%article"/></HBox>
+								<HBox alignment="CENTER_LEFT"><CheckBox fx:id="mutableCountCB" text="%count"/></HBox>
+								<HBox alignment="CENTER_LEFT"><CheckBox fx:id="mutableCostCB" text="%cost"/></HBox>
+								<HBox alignment="CENTER_LEFT"><CheckBox fx:id="mutableDateCB" text="%cost"/></HBox>
+							</TilePane>
+						</VBox>        
+					</GridPane>
+					
+					<!--БАГ: из-за разделителя становятся недоступными активные элементы слева от разделителя-->
+					<!--<Separator orientation="VERTICAL" minHeight="$SETINGS_PANEL_SEPARATOR_SIZE"  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />-->
+					
+					
+					<GridPane fx:id="mPriceSettings" alignment="CENTER" vgap="$SETTINGS_PANEL_GRID_VGAP" hgap="$SETTINGS_PANEL_GRID_HGAP" AnchorPane.topAnchor="$SETTINGS_PANEL_TOP_MARGIN" AnchorPane.rightAnchor="$SETTINGS_PANEL_SIDE_MARGIN">
+						<HBox fx:id="mergePriceRangeChooseArea" spacing="$HBOX_SPACING" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowSpan="2"   >
+							<Label text="%priceRangeLabel" HBox.margin="$PRICE_RANGE_CHOOSE_AREA_LABEL_INSETS"  />
+							<TextField fx:id="mergePriceRangeField1" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" />
+							<Label text=":" HBox.margin="$PRICE_RANGE_CHOOSE_AREA_LABEL_INSETS" />
+							<TextField fx:id="mergePriceRangeField2" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" />
+						</HBox>
+						
+						<Label text="%priceCategoryColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceCategoryColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="LEFT"/>
+						
+						<Label text="%priceBrandColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceBrandColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.halignment="LEFT"/>
+						
+						<Label text="%priceModelColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceModelColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.halignment="LEFT"/>
+					
+						<Label text="%priceArticleColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceArticleColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.halignment="LEFT"/>
+						 
+						<Label text="%priceCountColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceCountColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="LEFT"/>
+						 
+						<Label text="%priceCostColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceCostColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="LEFT"/>
+						
+						<Label text="%priceDateColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceDateColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.halignment="LEFT"/>
+					</GridPane>
+				</AnchorPane>
+				<VBox alignment="CENTER" spacing="$MATCHING_MODE_CHOOSE_AREA_VBOX_SPACING" BorderPane.alignment="CENTER" >
+					<Label text="%matchingModeChooseAreaHeader" VBox.margin="$MATCHING_MODE_CHOOSE_AREA_HEADER_INSETS"/>
+						
+					<HBox fx:id="matchingModeChoosePane" styleClass="chooseGroup" spacing="$MATCHING_MODE_CHOOSE_PANE_HGAP" alignment="CENTER" VBox.margin="$MATCHING_MODE_CHOOSE_PANE_INSETS" >
+						<RadioButton fx:id="articleModeRB"  text="%articleMode" selected="true" toggleGroup="$matchingModeChooseTG" />
+						<RadioButton fx:id="modelModeRB"  text="%modelMode"  toggleGroup="$matchingModeChooseTG" />
+						<RadioButton fx:id="modelBrandModeRB"  text="%modelBrandMode"  toggleGroup="$matchingModeChooseTG" />
+						<RadioButton fx:id="modelBrandCategoryModeRB"  text="%modelBrandCategoryMode" toggleGroup="$matchingModeChooseTG" />
+					</HBox>  
+				</VBox>
+			</VBox>
+		</center>
+		<bottom>
+			<Button fx:id="operateBtn"  text="%operate" prefHeight="$OPERATE_BTN_HEIGHT" prefWidth="$INFINITY"/>
+		</bottom>
+		
+	</BorderPane>
+	
+	
+	<!--	Файлы таблиц стилей хранятся в директории styles в отдельной папке для каждого стиля, в каждой из которых файл main.css является
+	основным файлом стиля-->
+	<stylesheets>
+		<URL value="@styles/default/main.css"/>
+	</stylesheets>
+</VBox>

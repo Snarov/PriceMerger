@@ -30,7 +30,7 @@ public class PriceMerger extends Application {
 	
 	@Override
 	public void start(Stage stage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("view/PriceMerger.fxml"), resources);
+		Parent root = FXMLLoader.load(getClass().getResource("gui/PriceMerger.fxml"), resources);
 		
 		Scene scene = new Scene(root);
 		
