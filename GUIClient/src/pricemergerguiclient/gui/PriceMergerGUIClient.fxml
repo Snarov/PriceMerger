@@ -46,7 +46,7 @@
 		<Double fx:id="MUTABLE_FIELDS_CHOOSE_PANE_HGAP" fx:value="10"/>
 		<Double fx:id="MATCHING_MODE_CHOOSE_PANE_HGAP" fx:value="15"/>
 		<Double fx:id="MATCHING_MODE_CHOOSE_AREA_VBOX_SPACING" fx:value="20"/>
-<!--		<Double fx:id="MATCHING_MODE_CHOOSE_AREA_BOTTOM_MARGIN" fx:value="15"/>-->
+		<!--		<Double fx:id="MATCHING_MODE_CHOOSE_AREA_BOTTOM_MARGIN" fx:value="15"/>-->
 		<Double fx:id="OPERATE_BTN_HEIGHT" fx:value="50"/>
 										 
 		<Insets fx:id="SETTINGS_PANEL_HEADER_INSETS" top="15" bottom="10"/>
@@ -101,39 +101,47 @@
 					<GridPane fx:id="masterPriceSettings" alignment="CENTER" vgap="$SETTINGS_PANEL_GRID_VGAP" hgap="$SETTINGS_PANEL_GRID_HGAP" AnchorPane.topAnchor="$SETTINGS_PANEL_TOP_MARGIN" AnchorPane.leftAnchor="$SETTINGS_PANEL_SIDE_MARGIN">
 						<HBox fx:id="masterPriceRangeChooseArea" spacing="$HBOX_SPACING" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowSpan="2"   >
 							<Label text="%priceRangeLabel" HBox.margin="$PRICE_RANGE_CHOOSE_AREA_LABEL_INSETS"  />
-							<TextField fx:id="masterPriceRangeField1" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" />
+							<TextField fx:id="masterPriceRangeFromTextField" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" onTextChange="#handleTextFieldTextChange"/>
 							<Label text=":" HBox.margin="$PRICE_RANGE_CHOOSE_AREA_LABEL_INSETS" />
-							<TextField fx:id="masterPriceRangeField2" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" />
+							<TextField fx:id="masterPriceRangeToTextField" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" onTextChange="#handleTextFieldTextChange"/>
 						</HBox>
 						
 						<Label text="%priceCategoryColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.halignment="LEFT"/>
-						<TextField fx:id="masterPriceCategoryColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceCategoryColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 						
 						<Label text="%priceBrandColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.halignment="LEFT"/>
-						<TextField fx:id="masterPriceBrandColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceBrandColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 						
 						<Label text="%priceModelColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.halignment="LEFT"/>
-						<TextField fx:id="masterPriceModelColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceModelColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 					
 						<Label text="%priceArticleColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.halignment="LEFT"/>
-						<TextField fx:id="masterPriceArticleColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceArticleColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 						
 						<Label text="%priceCountColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.halignment="LEFT"/>
-						<TextField fx:id="masterPriceCountColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceCountColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 						 
 						<Label text="%priceCostColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.halignment="LEFT"/>
-						<TextField fx:id="masterPriceCostColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceCostColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 						
 						<Label text="%priceDateColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.halignment="LEFT"/>
-						<TextField fx:id="masterPriceDateColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.halignment="LEFT"/>
+						<TextField fx:id="masterPriceDateColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 						
 						<VBox alignment="CENTER" spacing="$MUTABLE_FIELDS_CHOOSE_AREA_VBOX_SPACING"  GridPane.rowIndex="10" GridPane.columnSpan="2" GridPane.rowSpan="4"  GridPane.halignment="CENTER" GridPane.valignment="CENTER" >
 							<Label text="%mutableFieldsChooseAreaHeader" />
 							<TilePane fx:id="mutableFieldsChoosePane" styleClass="chooseGroup" hgap="$MUTABLE_FIELDS_CHOOSE_PANE_HGAP" vgap="$MUTABLE_FIELDS_CHOOSE_PANE_VGAP" alignment="CENTER" prefColumns="2" prefRows="2">
-								<HBox alignment="CENTER_LEFT"><CheckBox fx:id="mutableArticleCB"  text="%article"/></HBox>
-								<HBox alignment="CENTER_LEFT"><CheckBox fx:id="mutableCountCB" text="%count"/></HBox>
-								<HBox alignment="CENTER_LEFT"><CheckBox fx:id="mutableCostCB" text="%cost"/></HBox>
-								<HBox alignment="CENTER_LEFT"><CheckBox fx:id="mutableDateCB" text="%cost"/></HBox>
+								<HBox alignment="CENTER_LEFT">
+									<CheckBox fx:id="mutableArticleCB"  text="%article" onAction="#handleMutableFieldCBAction"/>
+								</HBox>
+								<HBox alignment="CENTER_LEFT">
+									<CheckBox fx:id="mutableCountCB" text="%count" onAction="#handleMutableFieldCBAction"/>
+								</HBox>
+								<HBox alignment="CENTER_LEFT">
+									<CheckBox fx:id="mutableCostCB" text="%cost" onAction="#handleMutableFieldCBAction"/>
+								</HBox>
+								<HBox alignment="CENTER_LEFT">
+									<CheckBox fx:id="mutableDateCB" text="%cost" onAction="#handleMutableFieldCBAction"/>
+								</HBox>
 							</TilePane>
 						</VBox>        
 					</GridPane>
@@ -145,41 +153,41 @@
 					<GridPane fx:id="mPriceSettings" alignment="CENTER" vgap="$SETTINGS_PANEL_GRID_VGAP" hgap="$SETTINGS_PANEL_GRID_HGAP" AnchorPane.topAnchor="$SETTINGS_PANEL_TOP_MARGIN" AnchorPane.rightAnchor="$SETTINGS_PANEL_SIDE_MARGIN">
 						<HBox fx:id="mergePriceRangeChooseArea" spacing="$HBOX_SPACING" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowSpan="2"   >
 							<Label text="%priceRangeLabel" HBox.margin="$PRICE_RANGE_CHOOSE_AREA_LABEL_INSETS"  />
-							<TextField fx:id="mergePriceRangeField1" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" />
+							<TextField fx:id="mergePriceRangeFromTextField" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" onTextChange="#handleTextFieldTextChange"/>
 							<Label text=":" HBox.margin="$PRICE_RANGE_CHOOSE_AREA_LABEL_INSETS" />
-							<TextField fx:id="mergePriceRangeField2" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" />
+							<TextField fx:id="mergePriceRangeToTextField" prefWidth="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELD_WIDTH"  HBox.margin="$PRICE_RANGE_CHOOSE_AREA_TEXTFIELDS_INSETS" onTextChange="#handleTextFieldTextChange"/>
 						</HBox>
 						
 						<Label text="%priceCategoryColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.halignment="LEFT"/>
-						<TextField fx:id="mergePriceCategoryColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceCategoryColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 						
 						<Label text="%priceBrandColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.halignment="LEFT"/>
-						<TextField fx:id="mergePriceBrandColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceBrandColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 						
 						<Label text="%priceModelColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.halignment="LEFT"/>
-						<TextField fx:id="mergePriceModelColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceModelColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 					
 						<Label text="%priceArticleColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.halignment="LEFT"/>
-						<TextField fx:id="mergePriceArticleColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceArticleColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 						 
 						<Label text="%priceCountColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.halignment="LEFT"/>
-						<TextField fx:id="mergePriceCountColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceCountColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 						 
 						<Label text="%priceCostColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.halignment="LEFT"/>
-						<TextField fx:id="mergePriceCostColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceCostColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 						
 						<Label text="%priceDateColNumLabel" GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.halignment="LEFT"/>
-						<TextField fx:id="mergePriceDateColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.halignment="LEFT"/>
+						<TextField fx:id="mergePriceDateColNumTextField" prefWidth="$PRICE_COL_NUM_TEXTFIELD_WIDTH" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.halignment="LEFT" onTextChange="#handleTextFieldTextChange"/>
 					</GridPane>
 				</AnchorPane>
 				<VBox alignment="CENTER" spacing="$MATCHING_MODE_CHOOSE_AREA_VBOX_SPACING" BorderPane.alignment="CENTER" >
 					<Label text="%matchingModeChooseAreaHeader" VBox.margin="$MATCHING_MODE_CHOOSE_AREA_HEADER_INSETS"/>
 						
 					<HBox fx:id="matchingModeChoosePane" styleClass="chooseGroup" spacing="$MATCHING_MODE_CHOOSE_PANE_HGAP" alignment="CENTER" VBox.margin="$MATCHING_MODE_CHOOSE_PANE_INSETS" >
-						<RadioButton fx:id="articleModeRB"  text="%articleMode" selected="true" toggleGroup="$matchingModeChooseTG" />
-						<RadioButton fx:id="modelModeRB"  text="%modelMode"  toggleGroup="$matchingModeChooseTG" />
-						<RadioButton fx:id="modelBrandModeRB"  text="%modelBrandMode"  toggleGroup="$matchingModeChooseTG" />
-						<RadioButton fx:id="modelBrandCategoryModeRB"  text="%modelBrandCategoryMode" toggleGroup="$matchingModeChooseTG" />
+						<RadioButton fx:id="articleRB"  text="%articleMode" selected="true" toggleGroup="$matchingModeChooseTG" onAction="#handleMatchingModeRBAction"/>
+						<RadioButton fx:id="modelRB"  text="%modelMode"  toggleGroup="$matchingModeChooseTG" onAction="#handleMatchingModeRBAction"/>
+						<RadioButton fx:id="modelBrandRB"  text="%modelBrandMode"  toggleGroup="$matchingModeChooseTG" onAction="#handleMatchingModeRBAction"/>
+						<RadioButton fx:id="modelBrandCategoryRB"  text="%modelBrandCategoryMode" toggleGroup="$matchingModeChooseTG" onAction="#handleMatchingModeRBAction"/>
 					</HBox>  
 				</VBox>
 			</VBox>
