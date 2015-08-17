@@ -19,7 +19,7 @@
 
 <!--Графический интерфейс пользователя использует привязки ресурсов для обеспечения локализации. Специфические для каждого языка и региона
 значения хранятся в файах внутри директории pricemasterr/bundles и именуются например так: 'locale_ru_RU.properties'-->
-<VBox xmlns:fx="http://javafx.com/fxml/1"  id="root" prefWidth="750" prefHeight="400" fx:controller="pricemerger.controller.PriceMergerController">
+<VBox xmlns:fx="http://javafx.com/fxml/1"  id="root" prefWidth="750" prefHeight="400" fx:controller="pricemergerguiclient.controller.PriceMergerGUIClientController">
 	<!--Блок описания всех констант исползуемыхпри построении GUI-->
 	<fx:define>
 		<!--		Почему-то предопределенное слово Infinity как значение для prefHeight не приводит к желаемому результату. Поэтому
