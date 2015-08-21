@@ -1,17 +1,23 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ООО "ТК ЭЛЬДОРАДО"
+ * Витебск 2015
+ * Автор: Снаров И.А.
  */
 package pricemergerguiclient.controller;
 
+import java.io.File;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import pricemergerguiclient.PriceMergerGUIClient;
+import pricemergerguiclient.model.Status;
+import static pricemergerguiclient.PriceMergerGUIClient.view;
+import static pricemergerguiclient.PriceMergerGUIClient.model;
+import static pricemergerguiclient.PriceMergerGUIClient.resources;
+import pricemergerguiclient.model.configuration.ConfigurationError;
 
 /**
  *
@@ -20,15 +26,22 @@ import pricemergerguiclient.PriceMergerGUIClient;
 public class PriceMergerGUIClientController {
 
 	@FXML
-	private void handleFileOpenMaster() {
-	}
+	private void handleOpenFile() {
 
-	@FXML
-	private void handleFileOpenMerge() {
+		File file = view.showFileDialog();
+
+		if (file != null) {
+			if (model.readFile(file)) {
+				view.fileReaded(file.getName());
+			}else{
+				view.showError(resources.getString("fileReadError"));
+			}
+		}
 	}
 
 	@FXML
 	private void handleFileExit() {
+		System.exit(0);
 	}
 
 	/**
@@ -44,10 +57,10 @@ public class PriceMergerGUIClientController {
 		//Имена полей класса конфигурации такие же, как и у соответствующих элементов gui, только без постфикса 'TextField'.
 		String paramName = textField.getId().replace("TextField", "");
 		//если не удалось изменить значение то выводим уведомление об ошибке и откатываем изменения в gui
-		if (!PriceMergerGUIClient.model.setConfParameter(paramName, newValue)) {
+		if (!model.setConfParameter(paramName, newValue)) {
 			property.setValue(oldValue);
-			String errorMessage = PriceMergerGUIClient.resources.getString("fieldSetError");
-			PriceMergerGUIClient.view.showError(errorMessage);
+			String errorMessage = resources.getString("fieldSetError");
+			view.showError(errorMessage);
 		}
 
 	}
@@ -63,10 +76,10 @@ public class PriceMergerGUIClientController {
 		//Имена полей класса конфигурации такие же, как и у соответствующих элементов gui, только без постфикса 'CB'.
 		String paramName = cb.getId().replace("CB", "");
 		//если не удалось изменить значение то выводим уведомление об ошибке и откатываем изменения в gui
-		if (!PriceMergerGUIClient.model.setConfParameter(paramName, cb.isSelected())) {
+		if (!model.setConfParameter(paramName, cb.isSelected())) {
 			cb.setSelected(!cb.isSelected());
-			String errorMessage = PriceMergerGUIClient.resources.getString("fieldSetError");
-			PriceMergerGUIClient.view.showError(errorMessage);
+			String errorMessage = resources.getString("fieldSetError");
+			view.showError(errorMessage);
 		}
 	}
 
@@ -76,10 +89,54 @@ public class PriceMergerGUIClientController {
 		//Имена полей перечисления в классе конфигурации такие же, как и у соответствующих элементов gui, только без постфикса 'RB'.
 		String valueName = rb.getId().replace("RB", "").toUpperCase();
 		//если не удалось изменить значение то выводим уведомление об ошибке и откатываем изменения в gui
-		if (!PriceMergerGUIClient.model.setConfParameter("matchingMode", valueName)) {
+		if (!model.setConfParameter("matchingMode", valueName)) {
 			rb.setSelected(false);
-			String errorMessage = PriceMergerGUIClient.resources.getString("fieldSetError");
-			PriceMergerGUIClient.view.showError(errorMessage);
+			String errorMessage = resources.getString("fieldSetError");
+			view.showError(errorMessage);
 		}
+	}
+
+	@FXML
+	private void handleOpenFileBtnPressed(ActionEvent event) {
+		handleOpenFile();
+	}
+
+	public void handleProcessBtnPressed(ActionEvent event) {
+		if (!model.fileCheck()) {
+			view.showError(resources.getString("fileNotSet"));
+			return;
+		}
+
+		ConfigurationError configurationError = model.confCheck();
+		if (configurationError != null) {
+			view.showConfigurationError(configurationError);
+			return;
+		}
+
+		model.process();
+	}
+
+	public void handleCancelBtnPressed(ActionEvent event) {
+		model.cancel();
+	}
+
+	/**
+	 * Обрабатывает ошибку, возникшую в модели. Является дополнительным интерфейсом для уведомления о возникновении ошибок и
+	 * используется тогда, когда применение обычного способа (посрадством возвращаемых значений) невозможно или затруднено.
+	 *
+	 * @param errorMsg
+	 */
+	public void handleModelError(String errorMsg) {
+		view.showError(resources.getString(errorMsg));
+	}
+
+	public void serverProcessRunning(ReadOnlyDoubleProperty workDoneProperty) {
+		view.switchToProcessingState(workDoneProperty);
+	}
+
+	public void serverProcessFinished(Status status) {
+		view.switchToMainState();
+		view.showResult(status);
+
 	}
 }
