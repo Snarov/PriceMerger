@@ -31,26 +31,30 @@ public class PriceMergerGUIClient extends Application {
 	//основные структурные части клиентского приложения
 	public static PriceMergerGUIClientView view;
 	public static PriceMergerGUIClientController controller;
-	public static PriceMergerGUIClientModel model = new PriceMergerGUIClientModel();
+	public static PriceMergerGUIClientModel model;
 	public static ResourceBundle resources = ResourceBundle.getBundle(LOCALE_PATH, new Locale(DEF_LANG, DEF_LOCATION));
 
 	@Override
 	public void start(Stage stage) throws Exception {
 
+		FXMLLoader loader = null;
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("gui/PriceMergerGUIClient.fxml"), resources);
+			loader = new FXMLLoader(getClass().getResource("gui/PriceMergerGUIClient.fxml"), resources);
+			Parent root = loader.load();
 
 			Scene scene = new Scene(root);
 
 			stage.setScene(scene);
 			stage.show();
-						
+
 		} catch (IOException ex) {
 			System.err.printf("Error during load resources: %s\n", ex.getMessage());
 			System.exit(1);
 		}
-		
+
 		view = new PriceMergerGUIClientView(stage);
+		controller = loader.getController();
+		model = new PriceMergerGUIClientModel();
 	}
 
 }

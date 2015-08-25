@@ -16,10 +16,10 @@ import javafx.scene.control.ProgressBar;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import pricemerger.core.Status;
 import pricemergerguiclient.model.PriceMergerGUIClientModel;
 import static pricemergerguiclient.PriceMergerGUIClient.resources;
 import static pricemergerguiclient.PriceMergerGUIClient.controller;
-import pricemergerguiclient.model.Status;
 import pricemergerguiclient.model.configuration.ConfigurationError;
 
 /**
@@ -108,7 +108,7 @@ public class PriceMergerGUIClientView {
 			String localizedFieldName = resources.getString(fieldName);
 			errMsgBuilder.append(wrongValueMsg).append(' ').append('\'').append(fieldName).append('\'').append('\n');
 		}
-		
+
 		String notSetMsg = resources.getString("notSetFieldValue");
 
 		for (String fieldName : configurationError.getFieldByState(ConfigurationError.Incorrectness.NOT_SET)) {
@@ -126,7 +126,7 @@ public class PriceMergerGUIClientView {
 					break;
 			}
 		}
-		
+
 		showError(errMsgBuilder.toString());
 	}
 

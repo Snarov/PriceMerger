@@ -5,6 +5,8 @@
  */
 package pricemergerguiclient.model.configuration;
 
+import pricemerger.core.Configuration;
+
 /**
  * Класс, ответственный за определение корректного состояния объектов класса Configuration
  *
@@ -38,7 +40,6 @@ public class ConfigurationChecker {
 //			}
 //		};
 //	}
-
 	/**
 	 * Этот умопомрачительный по своему содержанию метод проверяет текущую конфигурацию на согласованность и корректность
 	 *
@@ -50,7 +51,6 @@ public class ConfigurationChecker {
 
 //		//отображение, связывающее строковый параметр конфигурации и название ошибки.
 //		HashMap<String, String> paramToErrMsgMap = getParamToErrMap(configuration);
-
 		if (!"".equals(configuration.mergePriceRangeFrom) && !configuration.mergePriceRangeFrom.matches(CELL_ADDR_REGEX)) {
 			configurationError.addField("mergePriceRangeFrom", ConfigurationError.Incorrectness.WRONG_VALUE);
 		}

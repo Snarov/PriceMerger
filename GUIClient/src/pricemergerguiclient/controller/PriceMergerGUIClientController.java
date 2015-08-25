@@ -13,7 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import pricemergerguiclient.model.Status;
+import pricemerger.core.Status;
 import static pricemergerguiclient.PriceMergerGUIClient.view;
 import static pricemergerguiclient.PriceMergerGUIClient.model;
 import static pricemergerguiclient.PriceMergerGUIClient.resources;
@@ -33,7 +33,7 @@ public class PriceMergerGUIClientController {
 		if (file != null) {
 			if (model.readFile(file)) {
 				view.fileReaded(file.getName());
-			}else{
+			} else {
 				view.showError(resources.getString("fileReadError"));
 			}
 		}

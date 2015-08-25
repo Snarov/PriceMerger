@@ -3,7 +3,7 @@
  * Витебск 2015
  * Автор: Снаров И.А.
  */
-package pricemergerguiclient.model.configuration;
+package pricemerger.core;
 
 import java.io.Serializable;
 
@@ -23,20 +23,20 @@ public class Configuration implements Serializable {
 		ARTICLE, MODEL, MODELBRAND, MODELBRANDCATEGORY
 	};
 
-	String mergePriceRangeFrom = "";
-	String mergePriceRangeTo= "";
-	String mergePriceCategoryColNum = "";
-	String mergePriceBrandColNum = "";
-	String mergePriceModelColNum = "";
-	String mergePriceArticleColNum = "";
-	String mergePriceCountColNum = "";
-	String mergePriceCostColNum = "";
-	String mergePriceDateColNum = "";
+	public String mergePriceRangeFrom = "";
+	public String mergePriceRangeTo = "";
+	public String mergePriceCategoryColNum = "";
+	public String mergePriceBrandColNum = "";
+	public String mergePriceModelColNum = "";
+	public String mergePriceArticleColNum = "";
+	public String mergePriceCountColNum = "";
+	public String mergePriceCostColNum = "";
+	public String mergePriceDateColNum = "";
 
-	Boolean mutableArticle = false;
-	Boolean mutableCount = false;
-	Boolean mutableCost = false;
-	Boolean mutableDate = false;
+	public Boolean mutableArticle = false;
+	public Boolean mutableCount = false;
+	public Boolean mutableCost = false;
+	public Boolean mutableDate = false;
 
-	MatchingMode matchingMode = MatchingMode.ARTICLE; // по умолчанию
+	public MatchingMode matchingMode = MatchingMode.ARTICLE; // по умолчанию
 }

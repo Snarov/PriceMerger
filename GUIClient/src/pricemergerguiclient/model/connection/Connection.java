@@ -11,6 +11,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import pricemerger.core.IPriceMergerCore;
+import pricemergercd.daemon.IConnectionDispatcher;
 import pricemergerguiclient.PriceMergerGUIClient;
 
 /**
@@ -21,12 +23,12 @@ import pricemergerguiclient.PriceMergerGUIClient;
  */
 public class Connection {
 
-	static final String DEFAULT_HOST = "parking.by";
-	static final int DEFAULT_PORT = 1717;
+	static final String DEFAULT_HOST = "127.0.0.1";
+	static final int DEFAULT_PORT = 1099;
 	static final String SERVER_STUB_NAME = "connectionDispatcher";
 
-	private ServerConnectionDispatcher serverConnectionDispatcher;
-	private Server server;	//ссылка на объект (stub), представляющий собой сервер
+	private IConnectionDispatcher serverConnectionDispatcher;
+	private IPriceMergerCore server;	//ссылка на объект (stub), представляющий собой сервер
 
 	public Connection() {
 		this(DEFAULT_HOST, DEFAULT_PORT);
@@ -35,7 +37,7 @@ public class Connection {
 	public Connection(String host, int port) {
 		try {
 			Registry registry = LocateRegistry.getRegistry(host, port);
-			serverConnectionDispatcher = (ServerConnectionDispatcher) registry.lookup(SERVER_STUB_NAME);
+			serverConnectionDispatcher = (IConnectionDispatcher) registry.lookup(SERVER_STUB_NAME);
 		} catch (RemoteException | NotBoundException ex) {
 			Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
 			System.err.println(ex.getMessage());
@@ -61,10 +63,10 @@ public class Connection {
 			}
 		}
 
-		return false || server != null;
+		return server != null;
 	}
 
-	public Server getServer() {
+	public IPriceMergerCore getServer() {
 		return server;
 	}
 }

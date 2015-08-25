@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import pricemergerguiclient.model.configuration.Configuration;
 import pricemergerguiclient.model.configuration.ConfigurationChecker;
 import pricemergerguiclient.model.connection.Connection;
 import java.lang.reflect.Field;
@@ -19,6 +18,8 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.concurrent.Task;
+import pricemerger.core.Configuration;
+import pricemerger.core.Status;
 import static pricemergerguiclient.PriceMergerGUIClient.controller;
 import pricemergerguiclient.model.configuration.ConfigurationError;
 
@@ -40,7 +41,7 @@ public class PriceMergerGUIClientModel {
 	};
 
 	public PriceMergerGUIClientModel() {
-		connection = null;
+		connection = new Connection();
 		configuration = new Configuration();
 	}
 
@@ -50,9 +51,9 @@ public class PriceMergerGUIClientModel {
 	 */
 	public boolean readFile(File file) {
 		boolean successfully = false;
-		
+
 		if (file.exists()) {
-			priceFile = new byte[(int)file.length()];	//будем надеяться, что файлы размером больше 2 ГиБ(примерно) нам не встретятся
+			priceFile = new byte[(int) file.length()];	//будем надеяться, что файлы размером больше 2 ГиБ(примерно) нам не встретятся
 			try (FileInputStream fis = new FileInputStream(file)) {
 				fis.read(priceFile);
 				successfully = true;
@@ -62,7 +63,7 @@ public class PriceMergerGUIClientModel {
 				System.err.println("File input error" + ex.getMessage());
 			}
 		}
-		
+
 		return successfully;
 	}
 
@@ -123,67 +124,73 @@ public class PriceMergerGUIClientModel {
 	 * непосредственно выполняющую слияние, и затем получает от сервера результат.
 	 */
 	public void process() {
+		if (connection.connect("user", new char[]{'p', 'a', 's', 's'})) {
 
-		//Задача исполняется в фоновом режиме, чтобы не подвис GUI
-		Task<Status> mergeTask = new Task<Status>() {
-			@Override
-			public Status call() {
-				Status status = null;
-				try {
-					status = connection.getServer().merge(configuration, priceFile);
-				} catch (RemoteException ex) {
-					Logger.getLogger(PriceMergerGUIClientModel.class.getName()).log(Level.SEVERE, null, ex);
-					System.err.println("Error starting server process:" + ex.getMessage());
+			//Задача исполняется в фоновом режиме, чтобы не подвис GUI
+			Task<Status> mergeTask = new Task<Status>() {
+				@Override
+				public Status call() {
+					Status status = null;
+					try {
+
+						status = connection.getServer().merge(configuration, priceFile);
+					} catch (RemoteException ex) {
+						Logger.getLogger(PriceMergerGUIClientModel.class.getName()).log(Level.SEVERE, null, ex);
+						System.err.println("Error starting server process:" + ex.getMessage());
+					}
+
+					return status;
 				}
 
-				return status;
-			}
+				/**
+				 * Как только начинается выполнение процесса слияния на сервере содержимое основного окна клиентской программы
+				 * изменяет свое состояние.
+				 */
+				@Override
+				public void running() {
+					//меняем состояние представления на "работающее"
+					controller.serverProcessRunning(workDoneProperty());
 
-			/**
-			 * Как только начинается выполнение процесса слияния на сервере содержимое основного окна клиентской программы
-			 * изменяет свое состояние.
-			 */
-			@Override
-			public void running() {
-				//меняем состояние представления на "работающее"
-				controller.serverProcessRunning(workDoneProperty());
-
-				Timer updateProgressTimer = new Timer(true); //создаем таймер, поток которого является потоком-демоном
-				updateProgressTimer.schedule(new TimerTask() {
-					/**
-					 * Изменяет значение свойства workDone внешней задачи mergeTask
-					 */
-					@Override
-					public void run() {
-						try {
-							updateProgress(connection.getServer().getProgress(), 1.);
-						} catch (RemoteException ex) {
-							Logger.getLogger(PriceMergerGUIClientModel.class.getName()).log(Level.SEVERE, null, ex);
-							System.err.println("Retrieving progress error:" + ex.getMessage());
+					Timer updateProgressTimer = new Timer(true); //создаем таймер, поток которого является потоком-демоном
+					updateProgressTimer.schedule(new TimerTask() {
+						/**
+						 * Изменяет значение свойства workDone внешней задачи mergeTask
+						 */
+						@Override
+						public void run() {
+							try {
+								updateProgress(connection.getServer().getProgress(), 1.);
+							} catch (RemoteException ex) {
+								Logger.getLogger(PriceMergerGUIClientModel.class.getName()).log(Level.SEVERE, null, ex);
+								System.err.println("Retrieving progress error:" + ex.getMessage());
+							}
 						}
-					}
-				},
-						0,
-						PROGRESS_UPDATE_INTERVAL
-				);
+					},
+							0,
+							PROGRESS_UPDATE_INTERVAL
+					);
 
-			}
+				}
 
-			@Override
-			public void failed() {
-				controller.handleModelError("connectionError");
-			}
+				@Override
+				public void failed() {
+					controller.handleModelError("connectionError");
+				}
 
-			@Override
-			public void succeeded() {
-				controller.serverProcessFinished(getValue());
-			}
+				@Override
+				public void succeeded() {
+					controller.serverProcessFinished(getValue());
+				}
 
-		};
+			};
 
-		Thread mergeTaskThread = new Thread(mergeTask);
-		mergeTaskThread.setDaemon(true);
-		mergeTaskThread.start();
+			Thread mergeTaskThread = new Thread(mergeTask);
+			mergeTaskThread.setDaemon(true);
+			mergeTaskThread.start();
+
+		} else {
+			controller.handleModelError("authentificationFailed");
+		}
 	}
 
 	public void cancel() {

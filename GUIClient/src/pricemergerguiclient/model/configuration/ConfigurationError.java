@@ -51,10 +51,10 @@ public class ConfigurationError {
 				fieldNames.add(key);
 			}
 		});
-		
+
 		String[] retval = new String[fieldNames.size()];
 		fieldNames.toArray(retval);
-		
+
 		return retval;
 	}
 

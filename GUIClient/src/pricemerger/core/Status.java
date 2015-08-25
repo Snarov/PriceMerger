@@ -3,7 +3,7 @@
  * Витебск 2015
  * Автор: Снаров И.А.
  */
-package pricemergerguiclient.model;
+package pricemerger.core;
 
 import java.io.Serializable;
 
@@ -32,7 +32,7 @@ public class Status implements Serializable {
 	//Сколько предложений обновлено, добавлено
 	private int offersRefreshed;
 	private int offersAdded;
-	
+
 	/**
 	 * @return the state
 	 */
