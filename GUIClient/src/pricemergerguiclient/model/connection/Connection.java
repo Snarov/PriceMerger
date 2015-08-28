@@ -59,7 +59,7 @@ public class Connection {
 				server = serverConnectionDispatcher.connect(username, password);
 			} catch (RemoteException ex) {
 				Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
-				System.err.println(ex.getMessage());
+				System.err.println("Ошибка соединения с сервером: " + ex.getMessage());
 			}
 		}
 

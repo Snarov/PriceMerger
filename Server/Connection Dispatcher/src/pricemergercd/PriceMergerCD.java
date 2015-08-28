@@ -55,12 +55,14 @@ public class PriceMergerCD {
 			IConnectionDispatcher connectionDispatcherStub
 					= (IConnectionDispatcher) UnicastRemoteObject.exportObject(scd, appConfig.getDispatcherPort());
 			registry.bind(appConfig.getDispatcherRegistryBindName(), connectionDispatcherStub);
+			
+
 		} catch (RemoteException | AlreadyBoundException ex) {
 			Logger.getLogger(PriceMergerCD.class.getName()).log(Level.SEVERE, null, ex);
 			System.err.println("Error on daemon start up:" + ex.getMessage());
 		} catch (SQLException ex) {
 			Logger.getLogger(PriceMergerCD.class.getName()).log(Level.SEVERE, null, ex);
-			System.err.println("Error on daemon start up. MySQL connection error:" + ex.getMessage());
+			System.err.println("Error on daemon start up. MySQL connection error: " + ex.getMessage());
 		}
 	}
 }

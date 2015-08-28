@@ -152,7 +152,6 @@ public class PriceMergerGUIClientView {
 	 */
 	public void switchToProcessingState(ReadOnlyDoubleProperty observable) {
 		if (!processingState) {
-			mergingProgressBar.setManaged(true);
 			mergingProgressBar.setVisible(true);
 			mergingProgressBar.progressProperty().bind(observable);
 
@@ -166,7 +165,6 @@ public class PriceMergerGUIClientView {
 	 */
 	public void switchToMainState() {
 		if (!processingState) {
-			mergingProgressBar.setManaged(false);
 			mergingProgressBar.setVisible(false);
 			mergingProgressBar.progressProperty().unbind();
 			mergingProgressBar.setProgress(0);

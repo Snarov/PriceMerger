@@ -17,8 +17,8 @@ import java.util.logging.Logger;
  */
 class Authentificator {
 
-	private static final String CONNECTION_URL_TEMPLATE = "jdbc:mysql://%s:%d/%s";
-	private static final String USER_GET_SQL = "SELECT password FROM ? WHERE name=?";
+	private static final String CONNECTION_URL_TEMPLATE = "jdbc:mysql://%s:%d/%s?characterEncoding=utf8";
+	private static final String USER_GET_SQL = "SELECT password FROM %s WHERE name=?";
 
 	private final Connection DBConnection;
 	private final PreparedStatement userGetStatement;
@@ -34,8 +34,9 @@ class Authentificator {
 		String connectionURL = String.format(CONNECTION_URL_TEMPLATE, DBMSHost, DBMSPort, DBName);
 		DBConnection = DriverManager.getConnection(connectionURL, DBMSUser, DBMSPassword);
 
-		userGetStatement = DBConnection.prepareStatement(USER_GET_SQL);
-		userGetStatement.setString(1, tableName);
+		userGetStatement = DBConnection.prepareStatement(String.format(USER_GET_SQL, tableName));
+		userGetStatement.setMaxRows(1);
+
 	}
 
 	public boolean authentificate(String username, char[] password) {
@@ -43,10 +44,10 @@ class Authentificator {
 		boolean authentificated = false;
 
 		try {
-			userGetStatement.setString(2, username);
+			userGetStatement.setString(1, username);
 
 			ResultSet result = userGetStatement.executeQuery();
-			if (result.getRow() != 0) {
+			if (result.next()) {
 				byte[] currentPassword = result.getBytes(1);
 				authentificated = comparePasswords(currentPassword, password);
 			}

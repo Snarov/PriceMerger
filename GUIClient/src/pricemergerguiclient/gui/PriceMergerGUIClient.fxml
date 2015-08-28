@@ -213,7 +213,7 @@
 		</center>
 		<bottom>
 			<VBox alignment="CENTER" >
-				<ProgressBar fx:id="mergingProgressBar" prefWidth="$INFINITY" prefHeight="$MERGING_PROGRESS_BAR_HEIGHT" visible="false" managed="false" />  
+				<ProgressBar fx:id="mergingProgressBar" prefWidth="$INFINITY" prefHeight="$MERGING_PROGRESS_BAR_HEIGHT" visible="false"/>  
 				<Button fx:id="processBtn"  text="%process" disable="true" prefHeight="$OPERATE_BTN_HEIGHT" prefWidth="$INFINITY" onAction="#handleProcessBtnPressed" />
 			</VBox>
 		</bottom>

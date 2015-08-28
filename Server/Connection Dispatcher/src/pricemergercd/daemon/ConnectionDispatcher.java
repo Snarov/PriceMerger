@@ -22,7 +22,6 @@ import static pricemergercd.PriceMergerCD.appConfig;
 public class ConnectionDispatcher extends RemoteServer implements IConnectionDispatcher {
 
 	private static final String SERVER_CORE_RUN_COMMAND = "java -jar PriceMerger.jar --remote";
-	private static final String SERVER_CORE_STUB_CLASS_NAME = "IPriceMerger";
 
 	private final Authentificator authentificator;
 
@@ -33,9 +32,10 @@ public class ConnectionDispatcher extends RemoteServer implements IConnectionDis
 				appConfig.getDBMSUser(),
 				appConfig.getDBMSPassword(),
 				appConfig.getDBName(),
-				appConfig.getTableName()
+				appConfig.getUsersTableName()
 		);
-	}
+
+}
 
 	@Override
 	public IPriceMergerCore connect(String username, char[] password) {
@@ -47,23 +47,21 @@ public class ConnectionDispatcher extends RemoteServer implements IConnectionDis
 		//будет происходить слияние.
 		if (authentificator.authentificate(username, password)) {
 
-			ObjectInputStream ois = null;
-
 			try {
 				Process coreProc = Runtime.getRuntime().exec(SERVER_CORE_RUN_COMMAND);
 
-				ois = new ObjectInputStream(coreProc.getInputStream());
-
-				//загружаем класс stub'а
-				Class.forName("SERVER_CORE_STUB_CLASS_NAME");
-				serverStub = (IPriceMergerCore) ois.readObject();
+				try (ObjectInputStream ois = new ObjectInputStream(coreProc.getInputStream())) {
+					serverStub = (IPriceMergerCore) ois.readObject();
+					System.out.println("Server core process started");
+				} catch (ClassNotFoundException ex) {
+					Logger.getLogger(ConnectionDispatcher.class.getName()).log(Level.SEVERE, null, ex);
+					System.err.println("Error receiving server stub: " + ex.getMessage());
+					coreProc.destroyForcibly();
+				}
 
 			} catch (IOException ex) {
 				Logger.getLogger(ConnectionDispatcher.class.getName()).log(Level.SEVERE, null, ex);
 				System.err.println("Starting core process error: " + ex.getMessage());
-			} catch (ClassNotFoundException ex) {
-				Logger.getLogger(ConnectionDispatcher.class.getName()).log(Level.SEVERE, null, ex);
-				System.err.println("Error receving server stub: " + ex.getMessage());
 
 			}
 

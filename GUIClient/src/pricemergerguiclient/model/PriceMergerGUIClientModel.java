@@ -128,6 +128,9 @@ public class PriceMergerGUIClientModel {
 
 			//Задача исполняется в фоновом режиме, чтобы не подвис GUI
 			Task<Status> mergeTask = new Task<Status>() {
+				
+				private Timer updateProgressTimer;
+				
 				@Override
 				public Status call() {
 					Status status = null;
@@ -151,7 +154,7 @@ public class PriceMergerGUIClientModel {
 					//меняем состояние представления на "работающее"
 					controller.serverProcessRunning(workDoneProperty());
 
-					Timer updateProgressTimer = new Timer(true); //создаем таймер, поток которого является потоком-демоном
+					updateProgressTimer = new Timer(true); //создаем таймер, поток которого является потоком-демоном
 					updateProgressTimer.schedule(new TimerTask() {
 						/**
 						 * Изменяет значение свойства workDone внешней задачи mergeTask
@@ -159,10 +162,11 @@ public class PriceMergerGUIClientModel {
 						@Override
 						public void run() {
 							try {
-								updateProgress(connection.getServer().getProgress(), 1.);
+								updateProgress(connection.getServer().getProgress(), 1f);
 							} catch (RemoteException ex) {
 								Logger.getLogger(PriceMergerGUIClientModel.class.getName()).log(Level.SEVERE, null, ex);
 								System.err.println("Retrieving progress error:" + ex.getMessage());
+								this.cancel();
 							}
 						}
 					},
@@ -175,11 +179,13 @@ public class PriceMergerGUIClientModel {
 				@Override
 				public void failed() {
 					controller.handleModelError("connectionError");
+					updateProgressTimer.cancel();
 				}
 
 				@Override
 				public void succeeded() {
 					controller.serverProcessFinished(getValue());
+					updateProgressTimer.cancel();
 				}
 
 			};
@@ -189,7 +195,7 @@ public class PriceMergerGUIClientModel {
 			mergeTaskThread.start();
 
 		} else {
-			controller.handleModelError("authentificationFailed");
+			controller.handleModelError("serverStartupError");
 		}
 	}
 

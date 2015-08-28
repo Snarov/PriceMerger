@@ -29,11 +29,11 @@ public class AppConfig {
 	@Cfg
 	private String DBMSUser = "PriceMerger";
 	@Cfg
-	private String DBMSPassword = "";
+	private String DBMSPassword;
 	@Cfg
 	private String DBName = "Pricemerger";
 	@Cfg
-	private String tableName = "Users";
+	private String usersTableName = "Users";
 
 	/**
 	 * @return the registryPort
@@ -92,10 +92,10 @@ public class AppConfig {
 	}
 
 	/**
-	 * @return the tableName
+	 * @return the usersTableName
 	 */
-	public String getTableName() {
-		return tableName;
+	public String getUsersTableName() {
+		return usersTableName;
 	}
 
 }
