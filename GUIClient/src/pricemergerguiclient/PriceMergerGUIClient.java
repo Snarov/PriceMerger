@@ -20,6 +20,7 @@ import pricemergerguiclient.model.PriceMergerGUIClientModel;
 /**
  * Класс представляет само приложение. Структура данных класса соответсвует структуре приложения.
  *
+ * один БОЛЬШОЙ MVC
  * @author snarov
  */
 public class PriceMergerGUIClient extends Application {

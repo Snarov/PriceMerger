@@ -37,7 +37,7 @@ public class PriceMergerCore implements IPriceMergerCore {
 
 	private final CoreSettings coreSettings = new CoreSettings();
 	
-	//прогресс выполнения задачия слияния [0, 1]
+	//прогресс выполнения задачи слияния [0, 1]
 	private volatile float progress = 0f;
 
 	public PriceMergerCore() {
@@ -51,8 +51,10 @@ public class PriceMergerCore implements IPriceMergerCore {
 
 	@Override
 	public Status merge(Configuration configuration, byte[] file) throws RemoteException {
-		while(progress < 1);
+//		while(progress < 1);
 		
+		
+
 		UnicastRemoteObject.unexportObject(this, true);		//иначе процесс останется "висеть"
 		return new Status();
 		
