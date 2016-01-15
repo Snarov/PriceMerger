@@ -16,12 +16,12 @@ import pricemerger.util.MatchRate;
  */
 public class MergeProductRecord extends ProductRecord {
 
-	private String shipper;
+	private String shipperName;
 	private String article;
 
-	public MergeProductRecord(String shipper, String article, String category, String brand, String model, float price, int count, Date date) {
-		super(category, brand, model, price, count, date);
-		this.shipper = shipper;
+	public MergeProductRecord(long id, String shipperName, String article, String category, String brand, String model, float price, int count, Date date) {
+		super(id, category, brand, model, price, count, date);
+		this.shipperName = shipperName;
 		this.article = article;
 	}
 	
@@ -36,8 +36,8 @@ public class MergeProductRecord extends ProductRecord {
 	/**
 	 * @return the shipper
 	 */
-	public String getShipper() {
-		return shipper;
+	public String getShipperName() {
+		return shipperName;
 	}
 	
 	@Override

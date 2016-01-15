@@ -14,6 +14,7 @@ import pricemerger.util.MatchRate;
  * @author kiskin
  */
 abstract public class ProductRecord {
+	private final long id;
 	private final String category;
 	private final String brand;
 	private final String model;
@@ -21,7 +22,8 @@ abstract public class ProductRecord {
 	private final int count;
 	private final Date date;
 
-	public ProductRecord(String category, String brand, String model, float price, int count, Date date) {
+	public ProductRecord(long id, String category, String brand, String model, float price, int count, Date date) {
+		this.id = id;
 		this.category = category;
 		this.brand = brand;
 		this.model = model;

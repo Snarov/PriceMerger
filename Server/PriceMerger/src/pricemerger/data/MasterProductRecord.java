@@ -32,9 +32,9 @@ public class MasterProductRecord extends ProductRecord {
 	 * @param shippersNames ключи ассоциативного массива shippersArticles
 	 * @param shippersArticleValues соответствующие ключам значения для ассоциативного массива shippersArticles
 	 */
-	public MasterProductRecord(String masterArticle, String category, String brand, String model, float price,
+	public MasterProductRecord(long id, String masterArticle, String category, String brand, String model, float price,
 			int count, Date date, String[] shippersNames, String[] shippersArticleValues) {
-		super(category, brand, model, price, count, date);
+		super(id, category, brand, model, price, count, date);
 		this.masterArticle = masterArticle;
 	}
 
