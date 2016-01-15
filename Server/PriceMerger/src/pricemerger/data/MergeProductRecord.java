@@ -8,7 +8,7 @@ package pricemerger.data;
 import java.util.Date;
 import pricemerger.core.Configuration;
 import pricemerger.util.Currency;
-import pricemerger.util.MatchRate;
+import pricemerger.util.Match;
 
 /**
  * Класс, представляющий информацию о товарной позиции в основной таблице для слияния
@@ -43,7 +43,7 @@ public class MergeProductRecord extends ProductRecord {
 	}
 
 	@Override
-	public MatchRate compare(ProductRecord pr, Configuration.MatchingMode mm){
+	public Match.MatchRate compare(ProductRecord pr, Configuration.MatchingMode mm){
 		if(Configuration.MatchingMode.ARTICLE == mm){
 			//TODO implement
 			return super.compare(pr, mm);

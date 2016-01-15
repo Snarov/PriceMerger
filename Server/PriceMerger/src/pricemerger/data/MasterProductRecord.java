@@ -7,7 +7,7 @@ package pricemerger.data;
 
 import java.util.HashMap;
 import pricemerger.core.Configuration;
-import pricemerger.util.MatchRate;
+import pricemerger.util.Match;
 
 /**
  * Класс, представляющий информацию о товарной позиции в основной таблице.
@@ -77,7 +77,7 @@ public class MasterProductRecord extends ProductRecord {
 	}
 
 	@Override
-	public MatchRate compare(ProductRecord pr, Configuration.MatchingMode mm) {
+	public Match.MatchRate compare(ProductRecord pr, Configuration.MatchingMode mm) {
 		if (Configuration.MatchingMode.ARTICLE == mm) {
 			//TODO implement
 			return super.compare(pr, mm);

@@ -8,7 +8,8 @@ package pricemerger.data;
 import java.util.Date;
 import pricemerger.core.Configuration.MatchingMode;
 import pricemerger.util.Currency;
-import pricemerger.util.MatchRate;
+import pricemerger.util.Match;
+
 
 /**
  * Базовый класс для классов, представляющих информацию о товарной позиции
@@ -22,7 +23,7 @@ abstract public class ProductRecord {
 	 *
 	 * @author kiskin
 	 */
-	public class Offer {
+	public static class Offer {
 
 		final float cost;
 		final Currency currency;
@@ -93,8 +94,8 @@ abstract public class ProductRecord {
 	 * @param mm Режим сравнения
 	 * @return the match rate
 	 */
-	public MatchRate compare(ProductRecord pr, MatchingMode mm) {
+	public Match.MatchRate compare(ProductRecord pr, MatchingMode mm) {
 		//TODO implement
-		return new MatchRate(0f, 0f);
+		return new Match.MatchRate(0f, 0f);
 	}
 }
