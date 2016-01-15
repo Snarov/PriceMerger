@@ -5,7 +5,6 @@
  */
 package pricemerger.data;
 
-import java.util.Date;
 import java.util.HashMap;
 import pricemerger.core.Configuration;
 import pricemerger.util.MatchRate;
@@ -17,34 +16,59 @@ import pricemerger.util.MatchRate;
  */
 public class MasterProductRecord extends ProductRecord {
 
-	private String masterArticle;
-	private HashMap<String, String> shippersArticles = new HashMap<>();
+	private String endStatelabel; //поле, содержащее метку, добавляемую к записи по завершении процедуры слияния.
+
+	private HashMap<String, String> shippersArticles;
+	private HashMap<String, Offer> offers; //предложения поставщиков по товару. key - имяпоставщика. value - предложение
 
 	/**
-	 *
-	 * @param masterArticle
+	 * 
+	 * @param id
+	 * @param Article
 	 * @param category
 	 * @param brand
-	 * @param model
-	 * @param price
-	 * @param count
-	 * @param date
+	 * @param model 
 	 * @param shippersNames ключи ассоциативного массива shippersArticles
 	 * @param shippersArticleValues соответствующие ключам значения для ассоциативного массива shippersArticles
+	 * @param offers список существующих предложений по данному товару
+	 * 
 	 */
-	public MasterProductRecord(long id, String masterArticle, String category, String brand, String model, float price,
-			int count, Date date, String[] shippersNames, String[] shippersArticleValues) {
-		super(id, category, brand, model, price, count, date);
-		this.masterArticle = masterArticle;
+	public MasterProductRecord(long id, String Article, String category, String brand, String model,
+			String[] shippersNames, String[] shippersArticleValues, final Offer[] offers) {
+		super(id, Article, category, brand, model);
+		
+		shippersArticles = new HashMap<String, String>(){
+			{
+				for(int i = 0; i < shippersNames.length && i < shippersArticleValues.length; i++){
+					put(shippersNames[i], shippersArticleValues[i]);
+				}
+			}
+		};
+		
+		this.offers = new HashMap<String, Offer>(){
+			{
+				for(int i = 0; i < shippersNames.length && i < offers.length; i++){
+					put(shippersNames[i], offers[i]);
+				}
+			}
+		};
+	}
+	
+		
+	/**
+	 * @return the endStatelabel
+	 */
+	public String getEndStatelabel() {
+		return endStatelabel;
 	}
 
 	/**
-	 * @return the masterArticle
+	 * @param endStatelabel the endStatelabel to set
 	 */
-	public String getMasterArticle() {
-		return masterArticle;
+	public void setEndStatelabel(String endStatelabel) {
+		this.endStatelabel = endStatelabel;
 	}
-
+	
 	/**
 	 * @return the shippersArticles
 	 */

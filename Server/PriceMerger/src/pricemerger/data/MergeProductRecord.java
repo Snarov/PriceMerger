@@ -7,6 +7,7 @@ package pricemerger.data;
 
 import java.util.Date;
 import pricemerger.core.Configuration;
+import pricemerger.util.Currency;
 import pricemerger.util.MatchRate;
 
 /**
@@ -16,30 +17,31 @@ import pricemerger.util.MatchRate;
  */
 public class MergeProductRecord extends ProductRecord {
 
-	private String shipperName;
-	private String article;
-
-	public MergeProductRecord(long id, String shipperName, String article, String category, String brand, String model, float price, int count, Date date) {
-		super(id, category, brand, model, price, count, date);
-		this.shipperName = shipperName;
-		this.article = article;
-	}
+	private static String shipperName;
+	
+	private final Offer offer;
 	
 
-	/**
-	 * @return the article
-	 */
-	public String getArticle() {
-		return article;
+	public MergeProductRecord(long id, String Article, String category, String brand, String model,
+			float cost, Currency currency, long count, Date date) {
+		super(id, Article, category, brand, model);
+		
+		offer = new Offer(cost, currency, count, date);
 	}
-
+	
+	public MergeProductRecord(long id, String Article, String category, String brand, String model, Offer offer) {
+		super(id, Article, category, brand, model);
+		
+		this.offer = offer;
+	}
+		
 	/**
 	 * @return the shipper
 	 */
 	public String getShipperName() {
 		return shipperName;
 	}
-	
+
 	@Override
 	public MatchRate compare(ProductRecord pr, Configuration.MatchingMode mm){
 		if(Configuration.MatchingMode.ARTICLE == mm){
