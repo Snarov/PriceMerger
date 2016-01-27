@@ -27,21 +27,21 @@ public abstract class Reader {
 		DATE,
 	}
 
-	protected InputStream stream;
+	protected InputStream iStream;
 
 	Reader(InputStream stream) {
-		this.stream = stream;
+		this.iStream = stream;
 	}
 
 	/**
 	 * Метод, считывающий данные из файла и формирующий таблицу для слияния.
 	 * 
 	 * @param columnMapping отображение, отвечающий за сопоставление номеров столбцов с полями данных в таблице
-	 * @param from Диапазон - от
-	 * @param to диапазон - до
+	 * @param from Диапазон - от какой строки (номер)
+	 * @param to Диапазон - до какой строки (номер)
 	 * @return Таблица для слияния (сырая)
 	 */
-	abstract ArrayList<MergeProductRecord> read(final HashMap<String, String> columnMapping,
-			final String from,
-			final String to);
+	abstract ArrayList<MergeProductRecord> read(final HashMap<ColumnNames, Integer> columnMapping,
+			final int from,
+			final int to);
 }

@@ -5,26 +5,92 @@
  */
 package pricemerger.core.readers;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import pricemerger.data.MergeProductRecord;
+import pricemerger.data.ProductRecord.Offer;
 
 /**
+ * Производит чтение из Excel таблицы формата xlsx
  *
  * @author kiskin
  */
-public class XLSXReader extends Reader{
+public class XLSXReader extends Reader {
 
 	public XLSXReader(InputStream stream) {
 		super(stream);
 	}
-	
+
 	@Override
-	ArrayList<MergeProductRecord> read(final HashMap<String, String> columnMapping,
-			final String from,
-			final String to) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	ArrayList<MergeProductRecord> read(final HashMap<ColumnNames, Integer> columnMapping,
+			final int from,
+			final int to) {
+		ArrayList<MergeProductRecord> rawTable = new ArrayList<>();
+
+		if (from < to) { //если диапазон корректный
+			try {
+				XSSFWorkbook workbook = new XSSFWorkbook(iStream);
+				XSSFSheet sheet = workbook.getSheetAt(0); //Пока что обрабатывается только первый лист
+
+				AtomicInteger readedCount = new AtomicInteger(0);	//платформа не дает изменять значение переменной внутри лямбды.
+				for (int rowNum = from; rowNum <= to; rowNum++) {
+					XSSFRow row = sheet.getRow(rowNum);
+
+					if (row != null) {
+						HashMap<ColumnNames, Object> readBuffer = new HashMap<>();
+
+						columnMapping.forEach((ColumnNames colName, Integer colNum) -> {
+							if (colNum >= 0 && colNum >= row.getFirstCellNum() && colNum < row.getLastCellNum()) {
+								XSSFCell cell = row.getCell(colNum);
+
+								switch (cell.getCellType()) {
+									case Cell.CELL_TYPE_STRING:
+										readBuffer.put(colName, cell.getStringCellValue());
+										break;
+									case Cell.CELL_TYPE_NUMERIC:
+										if (colName == ColumnNames.DATE) {
+											readBuffer.put(colName, cell.getDateCellValue());
+										} else {
+											readBuffer.put(colName, cell.getNumericCellValue());
+										}
+										break;
+								}
+
+								Offer offer = new Offer(((Double) readBuffer.get(ColumnNames.COST)).floatValue(),
+										((Double) readBuffer.get(ColumnNames.COUNT)).intValue(),
+										(Date) readBuffer.get(ColumnNames.DATE));
+
+								MergeProductRecord rawRecord = new MergeProductRecord(
+										readedCount.incrementAndGet(),
+										(String) readBuffer.get(ColumnNames.ARTICLE),
+										(String) readBuffer.get(ColumnNames.CATEGORY),
+										(String) readBuffer.get(ColumnNames.BRAND),
+										(String) readBuffer.get(ColumnNames.MODEL),
+										offer
+								);
+								
+								rawTable.add(rawRecord);
+							}
+						});
+					}
+
+				}
+
+			} catch (IOException ex) {
+				//TODO handle exception
+			}
+		}
+
+		return rawTable;
 	}
-	
+
 }

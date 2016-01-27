@@ -24,15 +24,14 @@ abstract public class ProductRecord {
 	 * @author kiskin
 	 */
 	public static class Offer {
-
+		
 		final float cost;
-		final Currency currency;
+		final Currency currency = Currency.USD; //для начала все будет в долларах
 		final long count;
 		final Date date;
 
-		public Offer(float cost, Currency currency, long count, Date date) {
+		public Offer(float cost, long count, Date date) {
 			this.cost = cost;
-			this.currency = currency;
 			this.count = count;
 			this.date = date;
 		}
