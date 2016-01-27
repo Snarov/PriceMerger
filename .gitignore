@@ -8,3 +8,6 @@ build
 /Server/Connection Dispatcher/nbproject/private/
 /Server/PriceMerger/nbproject/private/
 Server/Connection Dispatcher/PriceMerger.jar
+nbproject
+manifest.mf
+build.xml

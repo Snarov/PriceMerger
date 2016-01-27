@@ -8,7 +8,7 @@ package pricemerger.core.readers;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import pricemerger.data.MergeProductRecord;
+import pricemerger.core.data.MergeProductRecord;
 
 /**
  * Базовый класс, производящий чтение входных файлов.

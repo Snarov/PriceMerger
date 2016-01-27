@@ -3,7 +3,7 @@
  * Витебск 2015
  * Автор: Снаров И.А.
  */
-package pricemerger.data;
+package pricemerger.core.data;
 
 import java.util.HashMap;
 import pricemerger.core.Configuration;

@@ -5,8 +5,8 @@
  */
 package pricemerger.util;
 
-import pricemerger.data.MasterProductRecord;
-import pricemerger.data.MergeProductRecord;
+import pricemerger.core.data.MasterProductRecord;
+import pricemerger.core.data.MergeProductRecord;
 
 /**
  * Класс, представляющий собой соответствие некоторой степени между записями в основной и входной таблицах
