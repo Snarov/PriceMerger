@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -31,7 +32,7 @@ public class XLSXReader extends Reader {
 	}
 
 	@Override
-	ArrayList<MergeProductRecord> read(final HashMap<ColumnNames, Integer> columnMapping,
+	ArrayList<MergeProductRecord> read(final HashMap<ColumnNames, String> columnMapping,
 			final int from,
 			final int to) {
 		ArrayList<MergeProductRecord> rawTable = new ArrayList<>();
@@ -48,7 +49,8 @@ public class XLSXReader extends Reader {
 					if (row != null) {
 						HashMap<ColumnNames, Object> readBuffer = new HashMap<>();
 
-						columnMapping.forEach((ColumnNames colName, Integer colNum) -> {
+						columnMapping.forEach((ColumnNames colName, String colNumAlpha26) -> {
+							int colNum = CellReference.convertColStringToIndex(colNumAlpha26);
 							if (colNum >= 0 && colNum >= row.getFirstCellNum() && colNum < row.getLastCellNum()) {
 								XSSFCell cell = row.getCell(colNum);
 

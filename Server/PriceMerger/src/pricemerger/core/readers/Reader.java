@@ -50,7 +50,7 @@ public abstract class Reader {
 	 * @param to Диапазон - до какой строки (номер)
 	 * @return Таблица для слияния (сырая)
 	 */
-	abstract ArrayList<MergeProductRecord> read(final HashMap<ColumnNames, Integer> columnMapping,
+	abstract ArrayList<MergeProductRecord> read(final HashMap<ColumnNames, String> columnMapping,
 			final int from,
 			final int to);
 }
