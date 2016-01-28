@@ -29,8 +29,17 @@ public abstract class Reader {
 
 	protected InputStream iStream;
 
+	Reader(){}
+	
 	Reader(InputStream stream) {
 		this.iStream = stream;
+	}
+	
+	/**
+	 * @param iStream the iStream to set
+	 */
+	private void setiStream(InputStream iStream) {
+		this.iStream = iStream;
 	}
 
 	/**
