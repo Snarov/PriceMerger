@@ -25,14 +25,14 @@ import pricemerger.core.data.ProductRecord.Offer;
  *
  * @author kiskin
  */
-public class XLSXReader extends Reader {
+public class MergeXLSXReader extends MergeFileReader {
 
-	public XLSXReader(InputStream stream) {
+	public MergeXLSXReader(InputStream stream) {
 		super(stream);
 	}
 
 	@Override
-	ArrayList<MergeProductRecord> read(final HashMap<ColumnNames, String> columnMapping,
+	public ArrayList<MergeProductRecord> read(final HashMap<ColumnNames, String> columnMapping,
 			final int from,
 			final int to) {
 		ArrayList<MergeProductRecord> rawTable = new ArrayList<>();
@@ -67,7 +67,8 @@ public class XLSXReader extends Reader {
 										break;
 								}
 
-								Offer offer = new Offer(((Double) readBuffer.get(ColumnNames.COST)).floatValue(),
+								Offer offer = new Offer((String) readBuffer.get(ColumnNames.ARTICLE),
+										((Double) readBuffer.get(ColumnNames.COST)).floatValue(),
 										((Double) readBuffer.get(ColumnNames.COUNT)).intValue(),
 										(Date) readBuffer.get(ColumnNames.DATE));
 

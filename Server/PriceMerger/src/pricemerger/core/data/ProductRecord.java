@@ -20,21 +20,32 @@ abstract public class ProductRecord {
 
 	/**
 	 * Товарное предложение из таблицы. Является логически выделенной частью из записи в таблице.
-	 *
+	 * Содержит уникальный артикул поставщика
 	 * @author kiskin
 	 */
 	public static class Offer {
-		
-		final float cost;
-		final Currency currency = Currency.USD; //для начала все будет в долларах
-		final long count;
-		final Date date;
+	
+		String article;
+		float cost;
+		Currency currency = Currency.USD; //для начала все будет в долларах
+		long count;
+		Date date;
 
-		public Offer(float cost, long count, Date date) {
+		public Offer(String article, float cost, long count, Date date) {
+			this.article = article;
 			this.cost = cost;
 			this.count = count;
 			this.date = date;
 		}
+
+		public Offer(String article, float cost, Currency currency, long count, Date date) {
+			this.article = article;
+			this.cost = cost;
+			this.currency = currency;
+			this.count = count;
+			this.date = date;
+		}
+		
 	}
 
 	private final long id;

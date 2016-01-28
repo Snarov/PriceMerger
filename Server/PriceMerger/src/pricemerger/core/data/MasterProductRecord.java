@@ -18,32 +18,32 @@ public class MasterProductRecord extends ProductRecord {
 
 	private String endStatelabel; //поле, содержащее метку, добавляемую к записи по завершении процедуры слияния.
 
-	private HashMap<String, String> shippersArticles;
+//	private HashMap<String, String> shippersArticles;
 	private HashMap<String, Offer> offers; //предложения поставщиков по товару. key - имяпоставщика. value - предложение
 
 	/**
 	 * 
 	 * @param id
-	 * @param Article
+	 * @param article
 	 * @param category
 	 * @param brand
 	 * @param model 
-	 * @param shippersNames ключи ассоциативного массива shippersArticles
+	 * @param shippersNames ключи ассоциативного массива offers
 	 * @param shippersArticleValues соответствующие ключам значения для ассоциативного массива shippersArticles
 	 * @param offers список существующих предложений по данному товару
 	 * 
 	 */
-	public MasterProductRecord(long id, String Article, String category, String brand, String model,
-			String[] shippersNames, String[] shippersArticleValues, final Offer[] offers) {
-		super(id, Article, category, brand, model);
+	public MasterProductRecord(long id, String article, String category, String brand, String model,
+			String[] shippersNames, final Offer[] offers) {
+		super(id, article, category, brand, model);
 		
-		shippersArticles = new HashMap<String, String>(){
-			{
-				for(int i = 0; i < shippersNames.length && i < shippersArticleValues.length; i++){
-					put(shippersNames[i], shippersArticleValues[i]);
-				}
-			}
-		};
+//		shippersArticles = new HashMap<String, String>(){
+//			{
+//				for(int i = 0; i < shippersNames.length && i < shippersArticleValues.length; i++){
+//					put(shippersNames[i], shippersArticleValues[i]);
+//				}
+//			}
+//		};
 		
 		this.offers = new HashMap<String, Offer>(){
 			{
@@ -69,12 +69,12 @@ public class MasterProductRecord extends ProductRecord {
 		this.endStatelabel = endStatelabel;
 	}
 	
-	/**
-	 * @return the shippersArticles
-	 */
-	public HashMap<String, String> getShippersArticles() {
-		return shippersArticles;
-	}
+//	/**
+//	 * @return the shippersArticles
+//	 */
+//	public HashMap<String, String> getShippersArticles() {
+//		return shippersArticles;
+//	}
 
 	@Override
 	public Match.MatchRate compare(ProductRecord pr, Configuration.MatchingMode mm) {

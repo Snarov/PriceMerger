@@ -7,16 +7,15 @@ package pricemerger.core.readers;
 
 import java.util.HashMap;
 
-
 /**
- * Простой класс для получения ридеров для заданного формата
+ * Простой класс для получения ридеров для заданной СУБД
  * @author kiskin
  */
-public class ReaderFactory {
+public class MasterSQLReaderFactory {
 	private static final HashMap<String, Class> classMaping = new HashMap<String, Class>(){
 		{
 			try {
-				put("xlsx", Class.forName("pricemerger.core.readers.XLSXReader"));
+				put("mysql", Class.forName("pricemerger.core.readers.MasterMySQLReader"));
 			} catch (ClassNotFoundException ex) {
 				//TODO output error msg
 			}
@@ -25,13 +24,15 @@ public class ReaderFactory {
 	
 	/**
 	 * Возвращает объект ридера соответствующего класса
-	 * @param fileFormat
+	 * @param DBMSName
 	 * @return объект класса Reader или null в случае ошибки
 	 */
-	public static Reader getReader(String fileFormat){
-		Reader reader = null;
+	public static MergeReader getReader(String DBMSName){
+		DBMSName = DBMSName.toLowerCase();
+		
+		MergeReader reader = null;
 		try {
-			reader = (Reader)classMaping.get(fileFormat).newInstance();
+			reader = (MergeReader)classMaping.get(DBMSName).newInstance();
 		} catch (InstantiationException ex ) {
 			//TODO handle
 		} catch (IllegalAccessException ex) {

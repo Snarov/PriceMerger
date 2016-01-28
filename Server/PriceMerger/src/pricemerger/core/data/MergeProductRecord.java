@@ -22,11 +22,11 @@ public class MergeProductRecord extends ProductRecord {
 	private final Offer offer;
 	
 
-	public MergeProductRecord(long id, String Article, String category, String brand, String model,
+	public MergeProductRecord(long id, String article, String category, String brand, String model,
 			float cost, long count, Date date) {
-		super(id, Article, category, brand, model);
+		super(id, article, category, brand, model);
 		
-		offer = new Offer(cost,  count, date);
+		offer = new Offer(article, cost, count, date);
 	}
 	
 	public MergeProductRecord(long id, String Article, String category, String brand, String model, Offer offer) {

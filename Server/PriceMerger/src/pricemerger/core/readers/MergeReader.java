@@ -11,11 +11,11 @@ import java.util.HashMap;
 import pricemerger.core.data.MergeProductRecord;
 
 /**
- * Базовый класс, производящий чтение входных файлов.
+ * Интерфейс, реализуемый классами, производящими чтение входных данных.
  *
  * @author kiskin
  */
-public abstract class Reader {
+public interface MergeReader {
 
 	public enum ColumnNames {
 		CATEGORY,
@@ -27,21 +27,6 @@ public abstract class Reader {
 		DATE,
 	}
 
-	protected InputStream iStream;
-
-	Reader(){}
-	
-	Reader(InputStream stream) {
-		this.iStream = stream;
-	}
-	
-	/**
-	 * @param iStream the iStream to set
-	 */
-	private void setiStream(InputStream iStream) {
-		this.iStream = iStream;
-	}
-
 	/**
 	 * Метод, считывающий данные из файла и формирующий таблицу для слияния.
 	 * 
@@ -50,7 +35,7 @@ public abstract class Reader {
 	 * @param to Диапазон - до какой строки (номер)
 	 * @return Таблица для слияния (сырая)
 	 */
-	abstract ArrayList<MergeProductRecord> read(final HashMap<ColumnNames, String> columnMapping,
+	ArrayList<MergeProductRecord> read(final HashMap<ColumnNames, String> columnMapping,
 			final int from,
 			final int to);
 }
